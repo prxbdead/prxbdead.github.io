@@ -1,4 +1,8 @@
 // eslint-disable-next-line vue/multi-word-component-names
+<script setup lang="ts">
+import ButtonComponent from './ButtonComponent.vue'
+</script>
+
 <script lang="ts">
 export default {
   data() {
@@ -21,39 +25,63 @@ export default {
       if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
         this.age--
       }
+    },
+    scrollToProjects() {
+      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
     }
   },
   created() {
     this.calculateAge()
-  },
-  mounted() {
-    console.log('mounted 1')
   }
 }
 </script>
 
 <template>
-  <div class="header">
+  <section id="home" class="header">
     <div class="left">
       <div class="top">
         <h3 @mouseover="updateCursor" @mouseleave="updateCursor">hey, my name is</h3>
         <h1 @mouseover="updateCursor" @mouseleave="updateCursor">Roland</h1>
       </div>
       <div class="center">
-        <p @mouseover="updateCursor" @mouseleave="updateCursor">I'm a {{ age }}-year-old Computer Science student at Babeș-Bolyai University. I’m passionate about both backend and frontend development and love learning new technologies. I’m dedicated to solving problems and persist until I achieve success.</p>
+        <p @mouseover="updateCursor" @mouseleave="updateCursor">
+          I'm a {{ age }}-year-old Computer Science graduate from Babeș-Bolyai University. I'm
+          passionate about computers — from low-level systems and how hardware works, to writing
+          software that's fast, clean, and correct. I enjoy optimization, learning how things
+          really work under the hood, and building products that last.
+        </p>
       </div>
       <div class="bottom">
-        <button tabindex="1" @mouseover="updateCursor" @mouseleave="updateCursor" onclick="window.location.href = 'https://github.com/prxbdead'">
-          <div>
+        <ButtonComponent @updateCursor="updateCursor" @click="scrollToProjects">
+          <template #icon>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="16" rx="2" />
+              <path d="M3 9h18" />
+            </svg>
+          </template>
+          projects
+        </ButtonComponent>
+
+        <ButtonComponent href="https://github.com/prxbdead" @updateCursor="updateCursor">
+          <template #icon>
             <img alt="github-svg" src="@/assets/icons/github.svg" />
-            github
-          </div>
-        </button>
+          </template>
+          github
+        </ButtonComponent>
+
+        <ButtonComponent href="mailto:roland.gerg.123@gmail.com" variant="primary" @updateCursor="updateCursor">
+          <template #icon>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m2 6 10 7 10-7" />
+            </svg>
+          </template>
+          hire me
+        </ButtonComponent>
       </div>
     </div>
     <div class="right"></div>
-  </div>
-  <div id="bg" ref="bg"></div>
+  </section>
 </template>
 
 <style>
@@ -62,7 +90,7 @@ export default {
   justify-content: center;
   align-items: center;
 
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   padding: 10vh 10vw;
 
@@ -96,6 +124,7 @@ export default {
 
     .center {
       justify-content: center;
+      max-width: 50vw;
 
       p {
         font-weight: normal;
@@ -104,6 +133,9 @@ export default {
     }
 
     .bottom {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
       justify-content: first;
       padding: 5vh 0;
     }
@@ -115,63 +147,10 @@ export default {
     .right {
       display: none;
     }
-  }
-}
 
-#bg {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-}
-
-#bg::after {
-  content: '';
-  position: absolute;
-  overflow: hidden;
-  width: calc(200vw + 200vh);
-  height: calc(200vw + 200vh);
-  top: calc(-100vw - 100vh);
-  left: calc(-100vw - 100vh);
-  z-index: -999;
-  left: 0;
-
-  background: url(../assets/icons/tile.webp) repeat 0 0;
-  transition: all 0.1s ease-out;
-  animation: blink 5s ease-in-out infinite;
-
-  transform-origin: 0 0;
-  transform: translate(var(--bgoffsetx), var(--bgoffsety)) rotate(45deg);
-}
-
-@keyframes blink {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@media not (pointer: fine) {
-  @keyframes slide {
-    0% {
-      transform: translate(0, 0) rotate(45deg);
+    .left .center {
+      max-width: 100%;
     }
-    100% {
-      transform: translate(calc(sqrt(2) * 50px), calc(sqrt(2) * 50px)) rotate(45deg);
-    }
-  }
-
-  #bg::after {
-    animation:
-      blink 5s ease-in-out infinite,
-      slide 1s linear infinite;
   }
 }
 </style>

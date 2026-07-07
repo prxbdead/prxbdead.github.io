@@ -33,26 +33,35 @@ export default {
 #cursor {
   display: block;
   transform: translate(-50%, -50%);
-  position: absolute;
+  position: fixed;
   border-radius: 50%;
   pointer-events: none;
-  transition: all 0.1s ease-out;
-  background: #2e2933;
-  opacity: 0.8;
-  z-index: 999;
+  transition:
+    top 0.08s ease-out,
+    left 0.08s ease-out,
+    width 0.15s ease-out,
+    height 0.15s ease-out,
+    border-radius 0.15s ease-out,
+    background 0.15s ease-out,
+    opacity 0.15s ease-out;
+  background: rgba(185, 139, 255, 0.25);
+  border: 1px solid rgba(185, 139, 255, 0.5);
+  opacity: 1;
+  z-index: 9999;
 }
 
 #cursor.hover {
   border-radius: 3em;
+  background: rgba(127, 0, 255, 0.12);
+  border-color: rgba(127, 0, 255, 0.4);
   z-index: 0;
-  transition: all 0.1s ease-out;
 }
 
 #cursor.hover-text {
-  border-radius: 32px;
-  width: 4px !important;
-  background: #7f00ff;
-  left: 0;
+  border-radius: 2px;
+  width: 2px !important;
+  background: #a855f7;
+  border-color: transparent;
 }
 
 @media not (pointer: fine) {

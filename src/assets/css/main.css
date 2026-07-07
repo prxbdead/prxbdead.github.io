@@ -5,13 +5,15 @@
 }
 
 :root {
-  --bgoffsetx: 0;
-  --bgoffsety: 0;
+  --bgoffsetx: 0px;
+  --bgoffsety: 0px;
+  --accent: #7c3aed;
+  --accent-soft: rgba(139, 92, 246, 0.35);
 }
 
 body {
-  background-color: #000;
-  color: #fff;
+  background-color: #07020f;
+  color: #ede9fe;
   overflow: hidden;
 }
 
@@ -19,7 +21,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Josefin Sans;
+  font-family: 'Josefin Sans', sans-serif;
   cursor: none;
   font-weight: normal;
   pointer-events: none;
@@ -34,34 +36,4 @@ button,
 label {
   pointer-events: all;
   width: fit-content;
-}
-
-button {
-  border: 1.5px solid #fff;
-  border-radius: 3em;
-  padding: min(1vh, 2vw) min(3vh, 6vw);
-  background-color: transparent;
-  outline: none;
-  transition: background-color 0.1s ease-out;
-
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: min(3vh, 6vw);
-    font-weight: 300;
-    color: #fff;
-
-    img {
-      height: 1em;
-      margin-right: min(2vh, 4vw);
-    }
-  }
-
-  &.hover,
-  &:focus,
-  &:active {
-    border: 1.5px solid #0000;
-    background-color: #2e2933cc;
-  }
 }
