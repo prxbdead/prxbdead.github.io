@@ -30,7 +30,7 @@ export default {
       },
       {
         root: document.getElementById('container'),
-        threshold: 0.5
+        threshold: 0.1
       }
     )
     SECTIONS.forEach((id) => {

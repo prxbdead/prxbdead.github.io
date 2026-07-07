@@ -4,7 +4,8 @@ interface Project {
   description: string
   dateRange: string
   image: string
-  demoUrl: string
+  demoUrl?: string
+  sourceUrl?: string
   tags: string[]
 }
 
@@ -20,7 +21,7 @@ export default {
           dateRange: '2023 — Present',
           image: new URL('@/assets/projects/mozisarok.webp', import.meta.url).href,
           demoUrl: 'https://mozisarok.hu',
-          tags: ['Frontend', 'Backend', 'Movies & Series']
+          tags: ['Frontend', 'Backend', 'Entertainment']
         },
         {
           title: 'Aquantic.hu',
@@ -30,7 +31,34 @@ export default {
           image: new URL('@/assets/projects/aquantic.webp', import.meta.url).href,
           demoUrl: 'https://aquantic.hu',
           tags: ['Frontend', 'Backend', 'E-commerce']
-        }
+        },
+        {
+          title: 'Dino CLI',
+          description:
+            'A retro-style endless runner game where players dodge obstacles to survive, featuring dynamic difficulty and a custom leaderboard powered by dynamic ordered lists.',
+          dateRange: '2024',
+          image: new URL('@/assets/projects/dino-cli.webp', import.meta.url).href,
+          sourceUrl: 'https://github.com/prxbdead/dino-cli',
+          tags: ['C++', 'Data Structures', 'Game Dev']
+        }, 
+        {
+          title: 'BMP Editor',
+          description:
+            'A low-level BMP image editor written in assembly language, featuring a graphical interface for cropping, resizing, blurring, and applying RLE compression.',
+          dateRange: '2024',
+          image: new URL('@/assets/projects/bmp-editor.webp', import.meta.url).href,
+          sourceUrl: 'https://github.com/prxbdead/bmp-editor',
+          tags: ['Assembly', 'Image Processing', 'Systems']
+        },
+        {
+          title: 'Shooter Game',
+          description:
+            'A Counter-Strike 2-inspired 3D game built from scratch in OpenTK, featuring custom collisions, physics, and skybox rendering.',
+          dateRange: '2026',
+          image: new URL('@/assets/projects/shooter.webp', import.meta.url).href,
+          sourceUrl: 'https://github.com/prxbdead/shooter-project',
+          tags: ['C#', 'OpenTK', 'Game Dev']
+        },
       ] as Project[],
       visible: [] as boolean[]
     }
@@ -76,14 +104,8 @@ export default {
     </p>
 
     <div class="grid">
-      <article
-        v-for="(project, index) in projects"
-        :key="project.title"
-        ref="card"
-        :data-index="index"
-        class="card"
-        :class="{ visible: visible[index] }"
-      >
+      <article v-for="(project, index) in projects" :key="project.title" ref="card" :data-index="index" class="card"
+        :class="{ visible: visible[index] }">
         <div class="thumb">
           <img :src="project.image" :alt="`${project.title} screenshot`" loading="lazy" />
         </div>
@@ -96,15 +118,13 @@ export default {
           <div class="tags">
             <span v-for="tag in project.tags" :key="tag">{{ tag }}</span>
           </div>
-          <a
-            :href="project.demoUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="demo-link"
-            @mouseover="updateCursor"
-            @mouseleave="updateCursor"
-          >
+          <a v-if="project.demoUrl" :href="project.demoUrl" target="_blank" rel="noopener noreferrer" class="demo-link"
+            @mouseover="updateCursor" @mouseleave="updateCursor">
             <div>view live site →</div>
+          </a>
+          <a v-else-if="project.sourceUrl" :href="project.sourceUrl" target="_blank" rel="noopener noreferrer"
+            class="demo-link" @mouseover="updateCursor" @mouseleave="updateCursor">
+            <div>view source code →</div>
           </a>
         </div>
       </article>
@@ -114,7 +134,7 @@ export default {
 
 <style scoped>
 .projects {
-  padding: 12vh 10vw;
+  padding: 12vh 10vw 20vh;
   min-height: 100vh;
   scroll-snap-align: start;
 
@@ -195,6 +215,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.75em;
+  flex: 1;
 
   .heading {
     display: flex;
@@ -218,12 +239,14 @@ export default {
     font-size: min(1.8vh, 3.6vw);
     opacity: 0.85;
     line-height: 1.5;
+    flex: 1;
   }
 
   .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em;
+    align-items: flex-start;
 
     span {
       font-size: 0.75em;
