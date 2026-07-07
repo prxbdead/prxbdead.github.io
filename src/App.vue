@@ -81,16 +81,26 @@ export default {
     },
 
     updateMousePosition(event: MouseEvent) {
-      this.mousePos.x = event.clientX
-      this.mousePos.y = event.clientY
+      this.applyPointerPosition(event.clientX, event.clientY)
+    },
+
+    updateTouchPosition(event: TouchEvent) {
+      const touch = event.touches[0]
+      if (!touch) return
+      this.applyPointerPosition(touch.clientX, touch.clientY)
+    },
+
+    applyPointerPosition(x: number, y: number) {
+      this.mousePos.x = x
+      this.mousePos.y = y
 
       if (this.ticking) return
       this.ticking = true
 
       requestAnimationFrame(() => {
         const root = document.documentElement
-        root.style.setProperty('--bgoffsetx', (event.clientX / window.innerWidth) * 50 + 'px')
-        root.style.setProperty('--bgoffsety', (event.clientY / window.innerHeight) * 50 + 'px')
+        root.style.setProperty('--bgoffsetx', (x / window.innerWidth) * 50 + 'px')
+        root.style.setProperty('--bgoffsety', (y / window.innerHeight) * 50 + 'px')
 
         if (this.cursor.class === 'hover' && this.hoveredEl) {
           const rect = this.hoveredEl.getBoundingClientRect()
@@ -98,14 +108,14 @@ export default {
           if (child) {
             child.style.transform =
               'translate(' +
-              ((event.clientX - rect.left) / this.cursor.w - 0.5) * 20 +
+              ((x - rect.left) / this.cursor.w - 0.5) * 20 +
               '%, ' +
-              ((event.clientY - rect.top) / this.cursor.h - 0.5) * 20 +
+              ((y - rect.top) / this.cursor.h - 0.5) * 20 +
               '%)'
           }
         } else {
-          this.cursor.x = event.clientX
-          this.cursor.y = event.clientY
+          this.cursor.x = x
+          this.cursor.y = y
         }
 
         this.ticking = false
@@ -219,7 +229,7 @@ export default {
 </script>
 
 <template>
-  <div id="container" @mousemove="updateMousePosition">
+  <div id="container" @mousemove="updateMousePosition" @touchmove.passive="updateTouchPosition">
     <div id="bg">
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
@@ -243,6 +253,8 @@ export default {
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   position: relative;
+  --bgoffsetx: 0px;
+  --bgoffsety: 0px;
 }
 
 #bg {
@@ -264,8 +276,8 @@ export default {
 }
 
 .blob-1 {
-  width: 55vw;
-  height: 55vw;
+  width: 55vmax;
+  height: 55vmax;
   top: -15%;
   left: -10%;
   background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
@@ -278,8 +290,8 @@ export default {
 }
 
 .blob-2 {
-  width: 65vw;
-  height: 65vw;
+  width: 65vmax;
+  height: 65vmax;
   bottom: -15%;
   right: -15%;
   background: radial-gradient(circle, #4f46e5 0%, transparent 70%);
@@ -292,8 +304,8 @@ export default {
 }
 
 .blob-3 {
-  width: 40vw;
-  height: 40vw;
+  width: 40vmax;
+  height: 40vmax;
   top: 35%;
   left: 38%;
   background: radial-gradient(circle, #6d28d9 0%, transparent 70%);
