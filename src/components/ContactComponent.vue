@@ -40,7 +40,7 @@ export default {
 
 <style scoped>
 .contact {
-  min-height: 60vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,6 +48,7 @@ export default {
   text-align: center;
   padding: 12vh 10vw;
   gap: 1.5em;
+  scroll-snap-align: start;
 
   h2 {
     font-size: min(6vh, 12vw);

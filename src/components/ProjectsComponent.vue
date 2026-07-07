@@ -116,6 +116,7 @@ export default {
 .projects {
   padding: 12vh 10vw;
   min-height: 100vh;
+  scroll-snap-align: start;
 
   h2 {
     font-size: min(6vh, 12vw);

@@ -90,9 +90,10 @@ export default {
   justify-content: center;
   align-items: center;
 
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   padding: 10vh 10vw;
+  scroll-snap-align: start;
 
   .right {
     min-width: 30%;

@@ -3,6 +3,7 @@ import Header from './components/HeaderComponent.vue'
 import Projects from './components/ProjectsComponent.vue'
 import Contact from './components/ContactComponent.vue'
 import Cursor from './components/CursorComponent.vue'
+import NavButtons from './components/NavButtonsComponent.vue'
 </script>
 
 <script lang="ts">
@@ -228,6 +229,7 @@ export default {
     </div>
 
     <Cursor :cursor="cursor"></Cursor>
+    <NavButtons @updateCursor="updateCursor"></NavButtons>
     <Header @updateCursor="updateCursor"></Header>
     <Projects @updateCursor="updateCursor"></Projects>
     <Contact @updateCursor="updateCursor"></Contact>
@@ -236,10 +238,10 @@ export default {
 
 <style scoped>
 #container {
-  max-height: 100vh;
+  height: 100vh;
   pointer-events: all;
   overflow-y: scroll;
-  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
   position: relative;
 }
 
@@ -346,7 +348,7 @@ export default {
 
 @media (prefers-reduced-motion: reduce) {
   #container {
-    scroll-behavior: auto;
+    scroll-snap-type: none;
   }
 
   .blob {
